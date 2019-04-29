@@ -1,14 +1,16 @@
 geocodificadorModulo = (function () {
   var geocodificador // Geocodificador que dada una dirección devuelve una coordenada
   
-    // Permite obtener las coordenadas y las usa con la función llamada por parámtero
-  function usaDireccion (direccion, funcionALlamar) {
-        /* Completar la función usaDireccion(dirección,funcionALlamar)
-     para que se obtengan las coordenadas a partir de la dirección pasada por parámetro
-     y que llame a la función pasada por parámetro con los siguientes parámetros
-     dirección: la dirección pasada por parámetro
-     coordenada: la ubicación de tipo google.maps.LatLng */
-  }
+  function usaDireccion(direccion, funcionALlamar) {
+		geocodificador.geocode({ address: direccion }, function(results, status) {
+			if (status == 'OK') {
+				funcionALlamar(direccion, results[0].geometry.location);
+			} else {
+				alert('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+	}
+
 
     // Inicializo el geocoder que obtiene las corrdenadas a partir de una dirección
     // La variable dirección es igual al texto ingresado por el usuario
