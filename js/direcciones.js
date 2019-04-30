@@ -96,6 +96,43 @@ direccionesModulo = (function () {
         /* Completar la función calcularYMostrarRutas , que dependiendo de la forma en que el
          usuario quiere ir de un camino al otro, calcula la ruta entre esas dos posiciones
          y luego muestra la ruta. */
+         var selectedMode = function(){
+          const medioElegido = document.getElementById('comoIr').value;
+          let restultado = ''
+            switch(medioElegido){
+              case 'Caminando':
+                console.log('eligio caminar', medioElegido)
+                restultado = 'WALKING'
+                break;
+              case 'Bus/Subterraneo/Tren':
+                console.log('eligio colectivo', medioElegido)
+                restultado = 'TRANSIT'
+                break;
+              default: 
+                console.log('eligio auto', medioElegido)
+                restultado = 'DRIVING';
+            }
+            return restultado
+          }
+        var waypts = []
+        var lugaresIntermedios = document.getElementById('puntosIntermedios');
+         for (let i = 0; i < lugaresIntermedios.length; i++) {
+          waypts.push({ location: lugaresIntermedios[i].value, stopover: true });
+          }
+        var request = {
+          origin: document.getElementById('desde').value,
+          destination: document.getElementById('hasta').value,
+          waypoints: waypts,
+          optimizeWaypoints: true,
+          travelMode: google.maps.TravelMode[selectedMode()],
+        };
+        servicioDirecciones.route(request, function(result, status) {
+          if (status == 'OK') {
+            mostradorDirecciones.setDirections(result);
+          }
+        });
+
+
   }
 
   return {
